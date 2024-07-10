@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="./style/check_out_.css">
+</head>
+<body>
+    <div class="container">
+        <form class="form" id="contactForm">
+            <h2>Contact Us</h2>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting the traditional way
+            
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Create a workbook and worksheet
+            const wb = XLSX.utils.book_new();
+            const ws_data = [
+                ["Name", "Email", "Message"],
+                [name, email, message]
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            
+            // Append the worksheet to the workbook
+            XLSX.utils.book_append_sheet(wb, ws, "Contact Form Data");
+            
+            // Generate and download the Excel file
+            XLSX.writeFile(wb, "contact_form_data.xlsx");
+        });
+    </script>
+</body>
+</html>
